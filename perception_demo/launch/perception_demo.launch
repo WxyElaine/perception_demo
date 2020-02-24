@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <!-- For Simulation -->
   <arg name="robot" default="fetch"/>
   <arg name="debug" default="false"/>
   <arg name="gui" default="true"/>
@@ -20,6 +21,7 @@
     <arg name="x" value="2.5" />
     <arg name="y" value="2.8" />
   </include>
+  <!-- END -->
 
   <node pkg="perception_demo" type="demo.py" name="perception_demo" output="screen"/>
 </launch>
