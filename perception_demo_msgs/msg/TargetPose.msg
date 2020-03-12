@@ -1,3 +1,3 @@
-int16 x
-int16 depth
+float32 x
+float32 depth
 

@@ -14,14 +14,15 @@ def wait_for_time():
 
 
 def move(msg, base):
+	print(msg.x, msg.depth)
 	if msg.x < 0.5:  # turn left
-		base.move(0, 0.2)
+		base.turn(0.4)
 	elif msg.x > 0.5:  # turn right
-		base.move(0, -0.2)
-	if msg.depth < 10:  # move forward
-		base.move(0.5, 0)
-	elif msg.depth > 10:  # move backward
-		base.move(-0.5, 0)
+		base.turn(-0.4)
+	if msg.depth >= 1000:  # move forward
+		base.go_forward(.5, speed = 10)
+	elif msg.depth < 1000:  # move backward
+		base.go_forward(-.5, speed = 10)
 
 
 def main():
