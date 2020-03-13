@@ -23,5 +23,5 @@
   </include>
   <!-- END -->
 
-  <node pkg="perception_demo" type="demo.py" name="perception_demo" output="screen"/>
+  <node pkg="perception_demo" type="perception_demo.py" name="perception_demo" output="screen"/>
 </launch>

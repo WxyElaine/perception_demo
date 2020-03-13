@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- For Simulation -->
+  <include file="$(find perception_demo)/launch/playground_simulation.launch" />
+
+  <node pkg="perception_demo" type="final_demo.py" name="final_demo" output="screen"/>
+</launch>
