@@ -36,6 +36,9 @@ def main():
     head = fetch_api.Head()
     fetch_gripper = fetch_api.Gripper()
 
+    # raise torso
+    torso.set_height(0.4)
+    
     # move base to the table
 
 
