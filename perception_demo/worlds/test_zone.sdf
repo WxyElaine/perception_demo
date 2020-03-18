@@ -22,7 +22,7 @@
     </include>
     <include>
       <uri>model://demo_cube</uri>
-      <pose>1.8 0.15 0.83 0 0 0</pose>
+      <pose>1.7 0 0.83 0 0 0</pose>
     </include>
     <include>
       <uri>model://person_standing</uri>

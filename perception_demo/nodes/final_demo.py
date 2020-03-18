@@ -46,9 +46,9 @@ class CubeCarrier():
         rospy.sleep(0.5)
 
         # raise torso
-        self._torso.set_height(0.2)
+        self._torso.set_height(0)
         # look down
-        self._head.pan_tilt(0, 0.3)
+        # self._head.pan_tilt(0, 0.3)
 
 
     def pickup_cube(self, msg):
@@ -131,6 +131,7 @@ class CubeCarrier():
                     rospy.logerr("Fail to move: {}".format(error))
                 else:
                     # succeed
+                    self._fetch_gripper.close()
                     print "Cube picked up!"
                     self._cube_picked = True
 
