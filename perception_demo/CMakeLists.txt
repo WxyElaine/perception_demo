@@ -3,17 +3,27 @@ project(perception_demo)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
+add_definitions(${PCL_DEFINITIONS})
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  roscpp
   rospy
   perception_demo_msgs
+  pcl_ros
+  geometry_msgs
+  sensor_msgs
+  shape_msgs
+  simple_grasping
+  tf
+  perception
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(PCL 1.7 REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -22,6 +32,7 @@ catkin_python_setup()
 
 link_directories(
   ${catkin_LIBRARY_DIRS}
+  ${PCL_LIBRARY_DIRS}
 )
 
 ################################################
@@ -105,7 +116,19 @@ link_directories(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  # DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES
+    perception_demo
+  CATKIN_DEPENDS
+    geometry_msgs
+    pcl_ros
+    roscpp
+    rospy
+    sensor_msgs
+    shape_msgs
+    simple_grasping
+    tf
+#  DEPENDS system_lib
 )
 
 ###########
@@ -117,55 +140,26 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/limb_manipulation.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/limb_manipulation_node.cpp)
-
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
-
-## Declare libraries
-# add_library(region_growing_rgb_segmentation src/region_growing_rgb_segmentation.cpp)
-# add_dependencies(region_growing_rgb_segmentation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-# target_link_libraries(region_growing_rgb_segmentation
-#   ${PCL_LIBRARIES}
-#   ${catkin_LIBRARIES}
-# )
+add_library(cube_segmenter src/cube_segmenter.cpp)
+add_dependencies(cube_segmenter ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cube_segmenter
+  ${PCL_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
 
 ## Declare executables
-# add_executable(limb_seg_demo src/limb_seg_demo.cpp)
-# set_target_properties(limb_seg_demo PROPERTIES OUTPUT_NAME limb_seg_demo PREFIX "")
-# add_dependencies(limb_seg_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-# target_link_libraries(limb_seg_demo
-#   region_growing_rgb_segmentation
-#   ${catkin_LIBRARIES}
-#   ${PCL_LIBRARIES}
-# )
+add_executable(cube_detector src/cube_detector.cpp)
+set_target_properties(cube_detector PROPERTIES OUTPUT_NAME cube_detector PREFIX "")
+add_dependencies(cube_detector ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cube_detector
+  cube_segmenter
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
 
 #############
 ## Install ##

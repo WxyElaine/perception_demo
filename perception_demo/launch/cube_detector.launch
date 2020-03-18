@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="reg_distance" value="10" />
+  <param name="reg_point_color" value="30" />
+  <param name="reg_region_color" value="100" />
+  <param name="min_cluster_size" value="5" />
+  <param name="max_cluster_size" value="10000" />
+
+  <param name="size_min" value="5" />
+  <param name="size_max" value="30" />
+
+  <node pkg="perception_demo" type="cube_detector" name="cube_detector" output="screen" />
+</launch>
