@@ -10,11 +10,11 @@
     <include>
       <uri>model://test_zone</uri>
     </include>
-    <include>
+    <!-- <include>
       <uri>model://cafe_table</uri>
       <name>table1</name>
       <pose>2 0 0 0 0 1.57</pose>
-    </include>
+    </include> -->
     <include>
       <uri>model://cafe_table</uri>
       <name>table2</name>
@@ -22,7 +22,7 @@
     </include>
     <include>
       <uri>model://demo_cube</uri>
-      <pose>1.7 0 0.83 0 0 0</pose>
+      <pose>0.55 0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://person_standing</uri>

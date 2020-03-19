@@ -26,6 +26,7 @@ class CubeCarrier():
     def __init__(self):
         # search for the person only after the cube is picked up
         self._cube_picked = False
+        self._is_planning = False
 
         # Fetch controls
         self._base = robot_api.Base()
@@ -48,37 +49,15 @@ class CubeCarrier():
         # raise torso
         self._torso.set_height(0)
         # look down
-        # self._head.pan_tilt(0, 0.3)
+        self._head.pan_tilt(0, 0.8)
 
 
     def pickup_cube(self, msg):
-        if not self._cube_picked:
-            # print(msg)
-            # move base to the table
-            # self._base.go_forward(1, speed=0.2)
-            # self._base.stop()
-            
-
-            # goal = MoveBaseGoal()
-            # goal.target_pose.header.frame_id = "map"
-            # goal.target_pose.header.stamp = rospy.Time.now()
-            # goal.target_pose.pose.position.x = 1.8
-            # goal.target_pose.pose.position.y =  0.15
-            # goal.target_pose.pose.position.z =  0.83
-            # goal.target_pose.pose.orientation.w = 1
-
-            # self._move_base_client.send_goal(goal)
-            # wait = self._move_base_client.wait_for_result()
-            # if not wait:
-            #     rospy.logerr("Action server not available!")
-            #     rospy.signal_shutdown("Action server not available!")
-            # else:
-            #     # move_base_client.get_result()
-            #     print "Ready to pick up the cube!"
-
+        if not self._cube_picked and not self._is_planning:
             # pick up the cube
             (position, quaternion) = self._tf_lookup()
             if (position, quaternion) != (None, None):
+                self._is_planning = True
                 # get the transformation, record it
                 record_pose = Pose()
                 record_pose.position.x = position[0]
@@ -115,7 +94,9 @@ class CubeCarrier():
                 pose = self._transform_to_pose(new_trans)
 
                 ps.pose = pose
-                ps.pose.orientation.w = 1.57
+                ps.pose.position.z += 0.18
+                ps.pose.orientation.w = -0.7
+                ps.pose.orientation.y = -0.7
 
                 marker = Marker(type=Marker.ARROW,
                     id=0,
@@ -125,15 +106,18 @@ class CubeCarrier():
                     color=ColorRGBA(1.0, 0.75, 0.3, 0.8))
                 self._viz_pub.publish(marker)
                 print "marker"
-                error = self._arm.move_to_pose(ps)
+                error = self._arm.move_to_pose(ps, execution_timeout=60)
                 if error is not None:
                     self._arm.cancel_all_goals()
                     rospy.logerr("Fail to move: {}".format(error))
                 else:
                     # succeed
                     self._fetch_gripper.close()
+                    self._torso.set_height(0.4)
+                    self._head.pan_tilt(0, 0)
                     print "Cube picked up!"
                     self._cube_picked = True
+                self._is_planning = False
 
 
     def goto_target(self, msg):

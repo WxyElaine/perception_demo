@@ -39,18 +39,18 @@ void Segmenter::SegmentPointCloud(const sensor_msgs::PointCloud2& msg) {
   pcl::IndicesPtr indices (new std::vector <int>);
   pcl::removeNaNFromPointCloud(*cloud_unfiltered, *cloud, *indices);
 
-//   // PASS THROUGH FILTER
-//   pcl::PassThrough<pcl::PointXYZRGB> pass;
-//   pass.setInputCloud(cloud);
-//   pass.setFilterFieldName("z");
-//   pass.setFilterLimits(0.0, 2.5);
-//   pcl::PointCloud <pcl::PointXYZRGB>::Ptr filtered_cloud (new pcl::PointCloud <pcl::PointXYZRGB>);
-//   pass.filter(*filtered_cloud);
+  // // PASS THROUGH FILTER
+  // pcl::PassThrough<pcl::PointXYZRGB> pass;
+  // pass.setInputCloud(cloud);
+  // pass.setFilterFieldName("z");
+  // pass.setFilterLimits(0.3, 2.0);
+  // pcl::PointCloud <pcl::PointXYZRGB>::Ptr filtered_cloud (new pcl::PointCloud <pcl::PointXYZRGB>);
+  // pass.filter(*filtered_cloud);
 
-//   // publish the filtered point cloud
-//   sensor_msgs::PointCloud2 filtered_cloud_msg;
-//   pcl::toROSMsg (*filtered_cloud, filtered_cloud_msg);
-//   filtered_cloud_pub_.publish(filtered_cloud_msg);
+  // // publish the filtered point cloud
+  // sensor_msgs::PointCloud2 filtered_cloud_msg;
+  // pcl::toROSMsg (*filtered_cloud, filtered_cloud_msg);
+  // filtered_cloud_pub_.publish(filtered_cloud_msg);
 
 
   // COLOR SEGMENTATION

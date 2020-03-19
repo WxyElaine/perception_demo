@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
       nh.advertise<visualization_msgs::Marker>("visualization_marker", 1, true);
   // cube centroid
   ros::Publisher cube_centroid_pub =
-      nh.advertise<geometry_msgs::PoseStamped>("cube_centroid", 1, true);
+      nh.advertise<geometry_msgs::PoseStamped>("cube_centroid", 10, true);
 
 
   segmentation::Segmenter segmenter(filtered_cloud_pub, colored_cloud_pub, marker_pub, cube_centroid_pub);
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
   ros::Subscriber segment_sub = 
       nh.subscribe("/downsampled_cloud", 1, &segmentation::Segmenter::Callback, &segmenter);
 
-  ros::Rate loop_rate(100);
+  ros::Rate loop_rate(10);
   while (ros::ok()) {
     ros::spinOnce();
     loop_rate.sleep();
