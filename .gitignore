@@ -1,2 +1,6 @@
 *~
 *.pyc
+
+*/CMakeFiles
+*/catkin_generated
+CATKIN_IGNORE
