@@ -2,7 +2,7 @@
 
 
 import rospy
-import fetch_api
+import robot_api
 from perception_demo_msgs.msg import TargetPose
 
 
@@ -28,7 +28,7 @@ def main():
 	rospy.init_node('perception_demo')
 	wait_for_time()
 
-	base = fetch_api.Base()
+	base = robot_api.Base()
 	target_pose_sub = rospy.Subscriber('/target_pose', TargetPose, callback=move, callback_args=base)
 	
 	rospy.sleep(0.5)
